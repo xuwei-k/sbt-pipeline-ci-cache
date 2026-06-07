@@ -12,7 +12,14 @@ common
 
 val a1 = project
   .settings(
-    common
+    common,
+    Compile / sourceGenerators += task {
+      (1 to 1000).map { n =>
+        val f = (Compile / sourceManaged).value / s"X${n}.scala"
+        IO.write(f, s"class X${n} { def x = ${n} } ")
+        f
+      }
+    }
   )
 
 val a2 = project
